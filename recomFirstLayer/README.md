@@ -1,0 +1,1 @@
+a lightweight python package to help preparing Dataframes (csv ... ) for LightFM module for easy training Training
