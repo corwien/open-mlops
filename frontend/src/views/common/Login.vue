@@ -67,7 +67,7 @@
           <li><a href="javascript:void(0);">联系我们</a></li>
           <li><a href="javascript:void(0);">法律声明</a></li>
         </ul>
-        <p>©2021 AlgoLink</p>
+        <p>©2022 open-mlops</p>
       </div>
   </div>
 </template>
