@@ -16,7 +16,6 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.5.1",
     "moment": "^2.27.0",
-    "node-sass": "^7.0.0",
     "socket.io": "^2.3.0",
     "vue": "^2.6.6",
     "vue-hljs": "^2.0.0",
@@ -36,7 +35,7 @@
     "eslint-plugin-vue": "^5.0.0",
     "lint-staged": "^8.1.4",
     "mockjs": "^1.0.1-beta3",
-    "node-sass": "^7.0.0",
+    "sass": "^1.52.3",
     "sass-loader": "^7.1.0",
     "vue-cli-plugin-element": "^1.0.1",
     "vue-template-compiler": "^2.5.21"

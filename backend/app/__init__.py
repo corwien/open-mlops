@@ -10,4 +10,4 @@ app.register_blueprint(api_routes, url_prefix="/")
 app.register_blueprint(error_routes, url_prefix="/")
 app.register_blueprint(ui_routes, url_prefix="/")
 
-data.init_database()
+#data.init_database()
