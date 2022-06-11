@@ -3,19 +3,13 @@
 
 ## 快速开始
 
-Do you have Docker? Then Run
-
-```bash
-docker build --tag <your_tag> .
-```
-
-You don't have Docker? Then Run:
+安装invoke:
 
 ```
 pip install invoke
 ```
 
-And then:
+然后运行:
 
 ```
 invoke buildAndServe
