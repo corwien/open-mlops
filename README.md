@@ -18,3 +18,6 @@ invoke buildAndServe
 ## 技术架构
 
 <img src="resources/art.png">
+
+## 相关资源
+* [MLOps-机器学习从开发到生产](https://github.com/leepand/MLOps-practice)<br/>

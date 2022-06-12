@@ -1,11 +1,14 @@
 from typing import Union
-from flask import Blueprint, jsonify, Response, request
+from flask import Blueprint, jsonify, request
+from .response import Response
+from flask_cors import cross_origin
 
 from ..models.task import Task
 from ..data import data
 
 blueprint = Blueprint("api", __name__)
 
+rsp = Response()
 
 @blueprint.get("/echo/<value>")
 def echo(value: str) -> Response:
@@ -55,3 +58,15 @@ def update_tasks_by_id(id: Union[int, str]) -> Response:
     task = Task(**task)
     updated_task = data.update_by_id(task)
     return jsonify(updated_task._asdict())
+
+@blueprint.post("/login/userLogin")
+def userLogin() -> Response:
+    user_info = request.get_json(force=True) or {}
+    print(user_info,"user_info")
+    #if "id" not in task:
+    #    task["id"] = -1
+
+    #new_task = Task(**task)
+    #new_task = data.insert_taks(new_task)
+    #return jsonify(new_task._asdict())
+    return rsp.success("发发发")
