@@ -7,6 +7,10 @@
 
 <p align="center">
   <a href="https://github.com/leepand/open-mlops"><img src="https://img.shields.io/appveyor/tests/leepand/open-mlops" /></a>
+       <a href="https://github.com/leepand/open-mlops"><img src="https://img.shields.io/github/watchers/leepand/open-mlops?style=social" /></a>     
+   <a href="https://github.com/leepand/open-mlops"><img src="https://img.shields.io/github/forks/leepand/open-mlops?style=social" /></a>   
+   <a href="https://github.com/leepand/open-mlops"><img src="https://img.shields.io/github/stars/leepand/open-mlops?style=social" /></a>   
+   
 </p>
 
 从0-1的 MLOps 项目，适应于中小型企业的 MLOps 实践参考。
