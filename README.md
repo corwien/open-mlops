@@ -1,6 +1,6 @@
 <h1 align="center"> mlopskit </h1>
 <p align="center">
-  <em>用于生产 MLOps 的Python简易框架。</em>
+  <em>用于生产 MLOps 的Python简易框架</em>
 </p>
 
 ---
