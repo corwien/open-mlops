@@ -2,7 +2,13 @@
 <p align="center">
   <em>用于生产 MLOps 的Python框架。</em>
 </p>
-# open-mlops(mlops platform dev)
+
+---
+
+<p align="center">
+  <a href="https://github.com/leepand/open-mlops"><img src="https://img.shields.io/appveyor/tests/leepand/open-mlops" /></a>
+</p>
+
 从0-1的 MLOps 项目，适应于中小型企业的 MLOps 实践参考。
 
 ## 快速开始
