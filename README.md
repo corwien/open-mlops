@@ -1,5 +1,9 @@
+<h1 align="center"> mlopskit </h1>
+<p align="center">
+  <em>用于生产 MLOps 的Python框架。</em>
+</p>
 # open-mlops(mlops platform dev)
-从0-1的实验项目，旨在帮助理解 MLOps 的各个模块组件的作用。
+从0-1的 MLOps 项目，适应于中小型企业的 MLOps 实践参考。
 
 ## 快速开始
 
