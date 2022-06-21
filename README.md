@@ -31,6 +31,9 @@ pip install invoke
 invoke buildAndServe
 ```
 
+mlopskit使用mlflow进行模型实验的跟踪、模型注册等功能，并提供了一种直接且一致的方式来将预测代码封装在一个Model类中：
+
+
 ## 技术架构
 
 <img src="resources/art.png">
