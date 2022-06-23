@@ -7,12 +7,13 @@ import mlflow
 from mlflow.tracking import MlflowClient
 from mlflow.exceptions import MlflowException
 
-from mlopskit.io import DataSetError
-from mlopskit.ext.mlflow.model_registry.mlflow_abstract_model_dataset import (
+from modelkit.io import DataSetError
+from modelkit.ext.mlflow.model_registry.mlflow_abstract_model_dataset import (
     MlflowAbstractModelDataSet,
 )
-from mlopskit.ext.store import PickleDataSet
-from mlopskit.utils.string_utils import strip_suffix
+from modelkit.ext.store import PickleDataSet
+from modelkit.utils.string_utils import strip_suffix
+from modelkit.utils.file_utils import relative_path_to_artifact_path
 
 MLMODEL_FILE_NAME = "MLmodel"
 
@@ -178,16 +179,20 @@ class ModelDeploy(MlflowAbstractModelDataSet):
         art_path_pkl = os.path.join(_artifact_path, self.sub_path, saved_art_name)
         #print(_artifact_path,"self._artifact_path")
         return art_path_pkl
-    def push(self,local_file=None, remote_art_server=None,file_params=None):
+    def push_file(self,local_file= None, remote_art_server=None,file_params=None,artifact_path=None):
         if local_file is None:
             to_upload_file = self._get_art_path_name()
         else:
             to_upload_file = local_file
-        
+        if artifact_path is None:
+            file_rel_path = to_upload_file
+        else:
+            file_rel_path = artifact_path
         if file_params is None:
             file_params = {"run_id":self._run_id,
                            "experiment_name":self.experiment_name,
-                           "art_file":self._get_art_path_name()}
+                           "art_file":file_rel_path
+                          }
 
         paths = ("file",)
         endpoint = posixpath.join("/", *paths)
@@ -202,6 +207,23 @@ class ModelDeploy(MlflowAbstractModelDataSet):
                                  timeout=600)
         
         return resp.json()
+    
+    def push_files(self, local_dir, remote_art_server=None, file_params=None,artifact_path=None):
+        local_dir = os.path.abspath(local_dir)
+        for root, _, filenames in os.walk(local_dir):
+            
+            if root == local_dir:
+                artifact_dir = artifact_path
+            else:
+                rel_path = os.path.relpath(root, local_dir)
+                rel_path = relative_path_to_artifact_path(rel_path)
+                artifact_dir = (
+                    posixpath.join(artifact_path, rel_path) if artifact_path else rel_path
+                )
+            print(artifact_dir,"ffff")
+            for f in filenames:
+                print(f,"f")
+                self.push_file(os.path.join(root, f), remote_art_server,file_params,artifact_dir)
 
     def _describe(self) -> Dict[str, Any]:
         return dict(
