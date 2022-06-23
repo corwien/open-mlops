@@ -14,6 +14,8 @@ from modelkit.ext.mlflow.model_registry.mlflow_abstract_model_dataset import (
 from modelkit.ext.store import PickleDataSet
 from modelkit.utils.string_utils import strip_suffix
 from modelkit.utils.file_utils import relative_path_to_artifact_path
+from modelkit.utils.rest_utils import augmented_raise_for_status
+
 
 MLMODEL_FILE_NAME = "MLmodel"
 
@@ -30,6 +32,7 @@ class ModelDeploy(MlflowAbstractModelDataSet):
         experiment_name: str = None,
         artifact_location: str = None,
         mlflow_server_url :str = None,
+        remote_art_server: str = None,
         backend:str ='pickle',
         sub_path :str = "model",
         load_args: Optional[Dict[str, Any]] = None,
@@ -73,6 +76,11 @@ class ModelDeploy(MlflowAbstractModelDataSet):
         #  thus is instantiated outside save_args
         self._save_args.pop("artifact_path", None)
         self.mlflow_server_url = mlflow_server_url
+        if remote_art_server is not None:
+            self._remote_art_server = strip_suffix(remote_art_server, "/")
+        else:
+            self._remote_art_server = remote_art_server
+
         self.mlflow_client = MlflowClient(tracking_uri = self.mlflow_server_url)
 
         if experiment_name:
@@ -179,7 +187,12 @@ class ModelDeploy(MlflowAbstractModelDataSet):
         art_path_pkl = os.path.join(_artifact_path, self.sub_path, saved_art_name)
         #print(_artifact_path,"self._artifact_path")
         return art_path_pkl
-    def push_file(self,local_file= None, remote_art_server=None,file_params=None,artifact_path=None):
+    def push_file(self,
+                  local_file= None,
+                  remote_art_server=None,
+                  file_params=None,
+                  artifact_path=None
+                 ):
         if local_file is None:
             to_upload_file = self._get_art_path_name()
         else:
@@ -196,7 +209,10 @@ class ModelDeploy(MlflowAbstractModelDataSet):
 
         paths = ("file",)
         endpoint = posixpath.join("/", *paths)
-        cleaned_hostname = strip_suffix(remote_art_server,"/")
+        if remote_art_server is None:
+            cleaned_hostname = self._remote_art_server
+        else:
+            cleaned_hostname = strip_suffix(remote_art_server,"/")
 
         url = "%s%s" % (cleaned_hostname, endpoint)
         with open(to_upload_file, "rb") as f:
@@ -208,7 +224,11 @@ class ModelDeploy(MlflowAbstractModelDataSet):
         
         return resp.json()
     
-    def push_files(self, local_dir, remote_art_server=None, file_params=None,artifact_path=None):
+    def push_files(self, local_dir, 
+                   remote_art_server=None,
+                   file_params=None,
+                   artifact_path=None
+                  ):
         local_dir = os.path.abspath(local_dir)
         for root, _, filenames in os.walk(local_dir):
             
@@ -224,6 +244,43 @@ class ModelDeploy(MlflowAbstractModelDataSet):
             for f in filenames:
                 print(f,"f")
                 self.push_file(os.path.join(root, f), remote_art_server,file_params,artifact_dir)
+
+    def list_artifacts(self, path=None):
+        endpoint = "/mlflow-artifacts/artifacts"
+        url, tail = self.artifact_uri.split(endpoint, maxsplit=1)
+        root = tail.lstrip("/")
+        params = {"path": posixpath.join(root, path) if path else root}
+        host_creds = _get_default_host_creds(url)
+        resp = http_request(host_creds, endpoint, "GET", params=params, timeout=10)
+        augmented_raise_for_status(resp)
+        file_infos = []
+        for f in resp.json().get("files", []):
+            file_info = FileInfo(
+                posixpath.join(path, f["path"]) if path else f["path"],
+                f["is_dir"],
+                int(f["file_size"]) if ("file_size" in f) else None,
+            )
+            file_infos.append(file_info)
+
+        return sorted(file_infos, key=lambda f: f.path)
+
+    def _download_file(self, remote_file_path, local_path, remote_art_server=None):
+        endpoint = posixpath.join("/", "files", remote_file_path)
+
+        if remote_art_server is None:
+            cleaned_hostname = self._remote_art_server
+        else:
+            cleaned_hostname = strip_suffix(remote_art_server,"/")
+
+        url = "%s%s" % (cleaned_hostname, endpoint)
+
+        resp = requests.get(url, stream=True, timeout=10)
+
+        augmented_raise_for_status(resp)
+        with open(local_path, "wb") as f:
+            chunk_size = 1024 * 1024  # 1 MB
+            for chunk in resp.iter_content(chunk_size=chunk_size):
+                f.write(chunk)
 
     def _describe(self) -> Dict[str, Any]:
         return dict(
