@@ -2,11 +2,11 @@ from urllib.parse import unquote
 from urllib.request import pathname2url
 import posixpath
 import os
+import sys
 
 import tarfile
 import gzip
 import tempfile
-
 
 def relative_path_to_artifact_path(path):
     if os.path == posixpath:
@@ -97,3 +97,12 @@ def find(root, name, full_path=False):
     """
     path_name = os.path.join(root, name)
     return list_all(root, lambda x: x == path_name, full_path)
+
+
+def path_to_local_sqlite_uri(path):
+    """
+    Convert local filesystem path to sqlite uri.
+    """
+    path = posixpath.abspath(pathname2url(os.path.abspath(path)))
+    prefix = "sqlite://" if sys.platform == "win32" else "sqlite:///"
+    return prefix + path
