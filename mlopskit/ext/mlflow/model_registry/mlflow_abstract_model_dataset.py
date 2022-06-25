@@ -3,8 +3,8 @@ from importlib.util import find_spec
 from pathlib import Path
 from typing import Any, Dict, Optional
 
-from modelkit.io import AbstractVersionedDataSet, Version
-from modelkit.io import DataSetError
+from mlopskit.io import AbstractVersionedDataSet, Version
+from mlopskit.io import DataSetError
 
 
 class MlflowAbstractModelDataSet(AbstractVersionedDataSet):

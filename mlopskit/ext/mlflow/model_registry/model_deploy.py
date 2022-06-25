@@ -7,14 +7,14 @@ import mlflow
 from mlflow.tracking import MlflowClient
 from mlflow.exceptions import MlflowException
 
-from modelkit.io import DataSetError
-from modelkit.ext.mlflow.model_registry.mlflow_abstract_model_dataset import (
+from mlopskit.io import DataSetError
+from mlopskit.ext.mlflow.model_registry.mlflow_abstract_model_dataset import (
     MlflowAbstractModelDataSet,
 )
-from modelkit.ext.store import PickleDataSet
-from modelkit.utils.string_utils import strip_suffix
-from modelkit.utils.file_utils import relative_path_to_artifact_path
-from modelkit.utils.rest_utils import augmented_raise_for_status
+from mlopskit.ext.store import PickleDataSet
+from mlopskit.utils.string_utils import strip_suffix
+from mlopskit.utils.file_utils import relative_path_to_artifact_path
+from mlopskit.utils.rest_utils import augmented_raise_for_status
 
 
 MLMODEL_FILE_NAME = "MLmodel"
