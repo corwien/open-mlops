@@ -4,10 +4,12 @@
 from mlopskit.ext.store.pickle.pickle_storage import PickleDataSet
 from mlopskit.ext.store.api.api_dataset import APIDataSet
 from mlopskit.ext.store.yaml.yaml_dataset import YAMLDataSet
+from mlopskit.ext.store.redis.redis_dataset import RedisDataSet
 
 
 __all__ = [
     'PickleDataSet',
     'YAMLDataSet',
-    'APIDataSet'
+    'APIDataSet',
+    'RedisDataSet'
 ]
