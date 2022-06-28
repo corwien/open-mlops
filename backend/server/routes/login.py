@@ -1,5 +1,5 @@
 from flask import jsonify,request
-from server import app,auth,sql_db
+from .. import app,auth,sql_db
 from flask_cors import cross_origin
 import os
 import datetime

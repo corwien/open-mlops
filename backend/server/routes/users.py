@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from flask import jsonify,request
-from server import app,auth,sql_db
+from .. import app,auth,sql_db
 from flask_cors import cross_origin
 import datetime
 
 from pyjackson import deserialize, serialize
-from server.models.models import SUsers
+from ..models.models import SUsers
 
 
 from .response import Response

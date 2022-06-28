@@ -27,3 +27,13 @@ export const addCampaign = (headers, params) => {
                     { headers 
                     }).then(res => res.data)
 }
+// 获取实验基础信息
+export const getAbExps = (headers, params) => {
+    return axios.get(`${base}/api/campaigns/abexps`, 
+                     { params: params, headers: headers }).then(res => res.data)
+}
+// 创建实验
+export const addAbExp = (headers, params) => {
+  return axios.post(`${base}/api/campaigns/add_ab_exp`, params, 
+                    { headers }).then(res => res.data)
+}

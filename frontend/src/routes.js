@@ -3,8 +3,9 @@ const Login = () => import('./views/common/Login.vue')
 const forgetPassword = () => import('./views/common/forgetPassword.vue')
 const Dashboard = () => import('./views/dashboard/dashboard.vue')
 const Home = () => import('./views/Home.vue')
-const CampaignListPage = () => import('./views/marketing-registry/CampaignListPage.vue')
 
+const CampaignListPage = () => import('./views/marketing-registry/CampaignListPage.vue')
+const CampaignAbCasePage = () => import('./views/marketing-registry/CampaignAbCasePage.vue')
 
 let routes = [
   {
@@ -52,7 +53,11 @@ let routes = [
          component: CampaignListPage, 
          iconCls: 'fa fa-cart-plus',
          name: '营销集市' 
-        }
+        },
+        { path: '/campaigns/campaign=:campaign_id', 
+         component: CampaignAbCasePage, 
+         name: '活动管理' 
+        },
     ]
   }
 ]
