@@ -38,3 +38,5 @@ app.debug = True
 
 #import server.apps.settings
 import server.routes.login
+import server.routes.users
+import server.routes.campaign_registry

@@ -12,12 +12,9 @@ from flask_cors import cross_origin
 from ..models.models import SUsers
 
 #from werkzeug.security import generate_password_hash, check_password_hash
-from flask_httpauth import HTTPBasicAuth
-
-
 rsp = Response()
 
-auth = HTTPBasicAuth()
+
 
 @auth.verify_password
 def check_pass(login_name, password):
