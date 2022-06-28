@@ -21,8 +21,8 @@ def frontend(context):
 @task
 def production(context):
     print("####### PREPARE PRODUCTION BUILD #######")
-    shutil.copy("frontend/dist/index.html", "backend/app/templates/index.html")
-    dir_util.copy_tree("frontend/dist/", "backend/app/static/")
+    shutil.copy("frontend/dist/index.html", "backend/server/templates/index.html")
+    dir_util.copy_tree("frontend/dist/", "backend/server/static/")
     
     
 
@@ -36,7 +36,7 @@ def build(context):
 @task
 def serve(context):
     print("####### RUN WEB SERVER #######")
-    run("cd backend && uwsgi -s 0.0.0.0:5001 --protocol=http --module app --callable app")
+    #run("cd backend && uwsgi -s 0.0.0.0:5001 --protocol=http --module app --callable app")
 
 
 @task

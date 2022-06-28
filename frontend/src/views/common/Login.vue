@@ -61,13 +61,7 @@
 
       </div>
       <div class="footer">
-        <ul>
-          <li><a href="javascript:void(0);">关于我们</a></li>
-          <li><a href="javascript:void(0);">合作伙伴</a></li>
-          <li><a href="javascript:void(0);">联系我们</a></li>
-          <li><a href="javascript:void(0);">法律声明</a></li>
-        </ul>
-        <p>©2022 open-mlops</p>
+        <p>©2022 bole-games</p>
       </div>
   </div>
 </template>

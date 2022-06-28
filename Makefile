@@ -40,13 +40,13 @@ test: clean-pyc ## Run unit test suite.
 
 start-server: ## start the local development server
 	export APP_SETTINGS="server.config.DevelopmentConfig"; \
-	export FLASK_APP=backend/app; \
+	export FLASK_APP=backend/server; \
 	export FLASK_DEBUG=1; \
     export FLASK_RUN_HOST="0.0.0.0"; \
-    export FLASK_RUN_PORT=5000; \
+    export FLASK_RUN_PORT=5001; \
 	flask run
 start-prod: ## start the local production server
-	gunicorn --workers=3 -b 0.0.0.0:5000  backend.app:app >>web-predict.log;
+	gunicorn --workers=3 -b 0.0.0.0:5000  backend.server:apps >>web-predict.log;
 
 test-models-endpoint: ## test the models endpoint
 	curl --request GET --url http://localhost:5000/api/models
@@ -60,3 +60,61 @@ test-predict-endpoint: ## test the predict endpoint
 	--data '{"petal_length": 1.0, "petal_width": 1.0, "sepal_length": 1.0, "sepal_width": 1.0}'
 test22:
 	ls ./
+    
+clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
+
+clean-build: ## remove build artifacts
+	rm -fr build/
+	rm -fr dist/
+	rm -fr .eggs/
+	find . -name '*.egg-info' -exec rm -fr {} +
+	find . -name '*.egg' -exec rm -f {} +
+
+clean-pyc: ## remove Python file artifacts
+	find . -name '*.pyc' -exec rm -f {} +
+	find . -name '*.pyo' -exec rm -f {} +
+	find . -name '*~' -exec rm -f {} +
+	find . -name '__pycache__' -exec rm -fr {} +
+
+clean-test: ## remove test and coverage artifacts
+	rm -fr .tox/
+	rm -f .coverage
+	rm -fr htmlcov/
+	rm -fr .pytest_cache
+
+lint: ## check style with flake8
+	flake8 lightfm_dataset_helper tests
+
+test: ## run tests quickly with the default Python
+	pytest
+
+test-all: ## run tests on every Python version with tox
+	tox
+
+coverage: ## check code coverage quickly with the default Python
+	coverage run --source lightfm_dataset_helper -m pytest
+	coverage report -m
+	coverage html
+	$(BROWSER) htmlcov/index.html
+
+docs: ## generate Sphinx HTML documentation, including API docs
+	rm -f docs/lightfm_dataset_helper.rst
+	rm -f docs/modules.rst
+	sphinx-apidoc -o docs/ lightfm_dataset_helper
+	$(MAKE) -C docs clean
+	$(MAKE) -C docs html
+	$(BROWSER) docs/_build/html/index.html
+
+servedocs: docs ## compile the docs watching for changes
+	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
+
+release: dist ## package and upload a release
+	twine upload dist/*
+
+dist: clean ## builds source and wheel package
+	python setup.py sdist
+	python setup.py bdist_wheel
+	ls -l dist
+
+install: clean ## install the package to the active Python's site-packages
+	python setup.py install
