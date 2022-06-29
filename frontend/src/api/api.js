@@ -1,9 +1,9 @@
 import axios from 'axios'
 
 axios.defaults.withCredentials = true // 配置为true
-let base = 'http://127.0.0.1:8893'
-export const test = 'http://127.0.0.1:8893'
-export const delpoySocketIP = `http://0.0.0.0:8893`
+let base = 'http://54.214.110.168:8893'
+export const test = 'http://54.214.110.168:8893'
+export const delpoySocketIP = `http://54.214.110.168:8893`
 
 
 export const requestLogin = params => {
