@@ -6,6 +6,9 @@ const Home = () => import('./views/Home.vue')
 
 const CampaignListPage = () => import('./views/marketing-registry/CampaignListPage.vue')
 const CampaignAbCasePage = () => import('./views/marketing-registry/CampaignAbCasePage.vue')
+const AddCasePage = () => import('./views/marketing-registry/AddCasePage.vue')
+const AbTaskPage = () => import('./views/marketing-registry/AbTaskPage.vue')
+const abCaseDetails = () => import('./views/marketing-registry/abCaseDetails.vue')
 
 let routes = [
   {
@@ -58,6 +61,18 @@ let routes = [
          component: CampaignAbCasePage, 
          name: '活动管理' 
         },
+        { path: '/campaigns/campaign=:campaign_id/addcase=:ab_id', 
+         component: AddCasePage, 
+         iconCls: 'fa fa-database',
+         name: '创建实验服务' },
+        { path: '/campaigns/campaign=:campaign_id/abexp=:ab_id', 
+         component: AbTaskPage, 
+         iconCls: 'fa fa-database',
+         name: '实验组信息' },
+        { path: '/campaigns/campaign=:campaign_id/abdetails=:ab_id', 
+         component: abCaseDetails, 
+         iconCls: 'fa fa-database', 
+         name: '实验详情' },
     ]
   }
 ]

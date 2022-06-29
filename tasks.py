@@ -6,7 +6,7 @@ from distutils import dir_util
 @task
 def backend(context):
     print("####### BUILDING BACKEND #######")
-    run("pip install -r backend/requirements.txt")
+    run("pip install -r requirements.txt")
 
 
 @task
@@ -21,8 +21,8 @@ def frontend(context):
 @task
 def production(context):
     print("####### PREPARE PRODUCTION BUILD #######")
-    shutil.copy("frontend/dist/index.html", "backend/server/templates/index.html")
-    dir_util.copy_tree("frontend/dist/", "backend/server/static/")
+    shutil.copy("frontend/dist/index.html", "server/templates/index.html")
+    dir_util.copy_tree("frontend/dist/", "server/static/")
     
     
 

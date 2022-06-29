@@ -37,3 +37,20 @@ export const addAbExp = (headers, params) => {
   return axios.post(`${base}/api/campaigns/add_ab_exp`, params, 
                     { headers }).then(res => res.data)
 }
+// 获取ab测试结果
+export const getTestResultList = (headers, params) => {
+  return axios.get(`${base}/api/abtesting/report/alt_table_report`, { params: params, headers: headers }).then(res => res.data)
+}
+
+// 设定实验的获胜者
+export const absetWinner = (headers, params) => {
+  return axios.post(`${base}/api/abtesting/report/abset_winner`, 
+                    params, 
+                    { headers }).then(res => res.data)
+}
+//获取dashboard 信息
+export const getDashboardDetail = (headers, params) => {
+  return axios.get(`${base}/api/dashboard/get_dashboard_info`, 
+                   { params: params, headers: headers }).then(res => res.data)
+}
+

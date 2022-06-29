@@ -40,13 +40,13 @@ test: clean-pyc ## Run unit test suite.
 
 start-server: ## start the local development server
 	export APP_SETTINGS="server.config.DevelopmentConfig"; \
-	export FLASK_APP=backend/server; \
+	export FLASK_APP=server; \
 	export FLASK_DEBUG=1; \
     export FLASK_RUN_HOST="0.0.0.0"; \
     export FLASK_RUN_PORT=5001; \
 	flask run
 start-prod: ## start the local production server
-	gunicorn --workers=3 -b 0.0.0.0:5001  backend.server.wsgi:app >>web-predict.log;
+	gunicorn --workers=3 -b 0.0.0.0:5001  server.wsgi:app >>web-predict.log;
 
 test-models-endpoint: ## test the models endpoint
 	curl --request GET --url http://localhost:5000/api/models
